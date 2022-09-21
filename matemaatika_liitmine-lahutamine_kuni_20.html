@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="EST">
+<head>
+    <title>Matemaatika, liitmine ja lahutamine kuni 20</title>
+    <style>
+        body, html {
+            margin: 50px;
+            padding: 50px;
+            width: 80%;
+            min-width: 100px;
+            margin: auto;
+        }
+    </style>
+</head>
+</head>
+<body>
+    <div id="title"></div>
+    <div>
+        <br>
+        <label for="tehteid">Mitu tehet? </label>
+        <input type="number" id="tehteid" name="tehteid" value="5" min="1" max="50">
+        <button onclick="teeTehted()">Tee tehted</button>
+        <br><br>
+    </div>
+    <div id="content"></div>
+    <div id="check">
+        <br>
+        <button onclick="kontrolli()">Kontrolli tehteid</button>
+    </div>
+</body>
+    <script>
+        document.getElementById('title').innerText = "Matemaatika, liitmine ja lahutamine kuni 20";
+
+        function teeTehted() {
+            let tehteArv = parseInt(document.getElementById('tehteid').value);
+            document.getElementById('content').innerHTML = "";
+            for (let i = 0; i < tehteArv; i++) {
+                document.getElementById('content').innerHTML += teeYksTehe(i);
+            }
+        }
+
+        function kontrolli() {
+            let tehteArv = parseInt(document.getElementById('tehteid').value);
+            for (let i = 0; i < tehteArv; i++) {
+                let vastusOige = parseInt(document.getElementById(`tehteID-${i}-value`).value);
+                let vastusAntud = parseInt(document.getElementById(`tehteID-${i}-vastus`).value);
+                let tehteDiv = document.getElementById(`tehteID-${i}-div`);
+                tehteDiv.style.backgroundColor = vastusOige === vastusAntud ? "green" : "red";
+            }
+        }
+        
+        function teeYksTehe (id) {
+            let valem = saaValem();
+            let tehteDiv = `<div id="tehteID-${id}-div">`;
+            tehteDiv += valem + " = ";
+            tehteDiv += `<input type="number" id="tehteID-${id}-vastus" name="tehteid" value="" min="1" max="100">`;
+            tehteDiv += `<input type="hidden" id="tehteID-${id}-value" name="tehteid" value="${eval(valem)}">`;
+            tehteDiv += "</div>";
+            return tehteDiv;
+        }
+
+        function saaValem() {
+            let tehe = saaTehe();
+            let num1 = saaNumber();
+            let num2 = saaNumber();
+            let valem = `${num1} ${tehe} ${num2}`;
+            let vastus = eval(valem);
+            return vastus < 1 ? saaValem() : valem;
+        }
+
+        function saaTehe() {
+            return Math.floor(Math.random() * 2) === 1 ? "+" : "-";
+        }
+
+        function saaNumber() {
+            return 1 + Math.floor(Math.random() * 15);
+        }
+        
+    </script>
+</html>
